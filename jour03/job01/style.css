@@ -1,0 +1,16 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        #text {
+            margin-top: 20px;
+            font-size: 18px;
+            display: none; /* Initialement caché */
+        }
+    

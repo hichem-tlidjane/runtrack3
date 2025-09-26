@@ -1,0 +1,75 @@
+ /* Prenez ce logo de La Plateforme_ et réalisez un jeu du taquin :
+Le taquin est composé de 8 carreaux qui glissent dans une grille prévue pour 9.
+Il consiste à remettre dans l'ordre les 8 carreaux à partir d'une configuration initiale. Le
+plateau de jeu est initialisé de façon aléatoire.
+Lorsqu’un carreau est cliqué, il se déplace dans la case vide adjacente (si il y en a une).
+Lorsque l’image est correctement recomposée, le message “Vous avez gagné” s’affiche
+en vert et bloque la partie.
+Un bouton “Recommencer” apparaît et permet de relancer une partie.
+
+Ressources : voici les images :
+image 1
+image 2
+image 3
+image 4
+image 5
+
+image 6
+image 7
+image 8
+image 9 
+ */
+ 
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.taquin-container {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    gap: 20px;
+    margin: auto;
+}
+
+.tile {
+    width: 250px;
+    height: 250px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+.empty {
+    background-color: #f0f0f0;
+    cursor: default;
+}
+#gameContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    grid-template-rows: repeat(3, 250px);
+    gap: 0;
+    margin: 20px auto;
+    width: max-content;
+}
+#message {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+}
+#restartButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
