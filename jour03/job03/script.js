@@ -19,105 +19,114 @@
 // image 8
 // image 9
 
+//
+$(function () {
+  let images = [
+    "01.png",
+    "02.png",
+    "10.png",
+    "11.png",
+    "12.png",
+    "20.png",
+    "21.png",
+    "22.png",
+    null,
+  ];
+  let winImages = images.slice(); // Ordre gagnant
 
-// 
-const images = [
-    "01.png", "02.png", "10.png",
-    "11.png", "12.png", "20.png",
-    "21.png", "22.png", null // null = case vide
-];
-
-let tiles = [];
-let emptyIndex = 8; // position de la case vide
-
-const gameContainer = document.getElementById('gameContainer');
-const resultMessage = document.getElementById('resultMessage');
-const restartButton = document.getElementById('restartButton');
-
-function shuffle(array) {
-    // Mélange le tableau jusqu'à obtenir une configuration résoluble
+  function shuffle(array) {
     let shuffled, inv;
     do {
-        shuffled = array.slice();
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        inv = getInversions(shuffled);
-    } while (inv % 2 !== 0); // Un taquin 3x3 n'est résoluble que si le nombre d'inversions est pair
+      shuffled = array.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      inv = getInversions(shuffled);
+    } while (inv % 2 !== 0);
     return shuffled;
-}
+  }
 
-function getInversions(arr) {
+  function getInversions(arr) {
     let inv = 0;
-    const flat = arr.filter(x => x !== null);
+    const flat = arr.filter((x) => x !== null);
     for (let i = 0; i < flat.length; i++) {
-        for (let j = i + 1; j < flat.length; j++) {
-            if (parseInt(flat[i]) > parseInt(flat[j])) inv++;
-        }
+      for (let j = i + 1; j < flat.length; j++) {
+        if (flat[i] > flat[j]) inv++;
+      }
     }
     return inv;
-}
+  }
 
-function render() {
-    gameContainer.innerHTML = '';
+  function render(tiles) {
+    $("#gameContainer").empty();
     tiles.forEach((img, idx) => {
-        const div = document.createElement('div');
-        div.className = 'tile' + (img === null ? ' empty' : '');
-        div.dataset.index = idx;
-        if (img) {
-            const image = document.createElement('img');
-            image.src = img;
-            image.alt = img;
-            image.style.width = "100%";
-            image.style.height = "100%";
-            div.appendChild(image);
-            div.addEventListener('click', () => moveTile(idx));
-        }
-        gameContainer.appendChild(div);
+      let div = $('<div class="tile"></div>');
+      if (img) {
+        div.append(`<img src="${img}" style="width:100%;height:100%">`);
+        div.on('click', onTileClick);
+      } else {
+        div.addClass("empty");
+      }
+      div.data("index", idx);
+      $("#gameContainer").append(div);
     });
-}
+  }
 
-function moveTile(idx) {
-    if (canMove(idx)) {
-        [tiles[emptyIndex], tiles[idx]] = [tiles[idx], tiles[emptyIndex]];
-        emptyIndex = idx;
-        render();
-        checkWin();
-    }
-}
+  function getTiles() {
+    let tiles = [];
+    $("#gameContainer .tile").each(function () {
+      let img = $(this).find("img").attr("src");
+      tiles.push(img ? img : null);
+    });
+    return tiles;
+  }
 
-function canMove(idx) {
-    const row = Math.floor(idx / 3), col = idx % 3;
-    const emptyRow = Math.floor(emptyIndex / 3), emptyCol = emptyIndex % 3;
-    return (Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) === 1;
-}
+  function canMove(idx, emptyIdx) {
+    let row = Math.floor(idx / 3),
+      col = idx % 3;
+    let emptyRow = Math.floor(emptyIdx / 3),
+      emptyCol = emptyIdx % 3;
+    return Math.abs(row - emptyRow) + Math.abs(col - emptyCol) === 1;
+  }
 
-function checkWin() {
+  function checkWin(tiles) {
     for (let i = 0; i < 8; i++) {
-        if (tiles[i] !== images[i]) {
-            resultMessage.textContent = '';
-            return false;
-        }
+      if (tiles[i] !== winImages[i]) return false;
     }
-    resultMessage.textContent = "Vous avez gagné";
-    resultMessage.style.color = "green";
-    // Bloque la partie
-    document.querySelectorAll('.tile').forEach(tile => tile.classList.add('blocked'));
     return true;
-}
+  }
 
-function restart() {
-    tiles = shuffle(images);
-    emptyIndex = tiles.indexOf(null);
-    resultMessage.textContent = '';
-    resultMessage.style.color = "";
-    render();
-    // Débloque la partie
-    document.querySelectorAll('.tile').forEach(tile => tile.classList.remove('blocked'));
-}
+  function blockGame() {
+    $("#gameContainer .tile").off("click");
+  }
 
-restartButton.addEventListener('click', restart);
+  function onTileClick() {
+    let idx = $(this).index();
+    let tiles = getTiles();
+    let emptyIdx = tiles.indexOf(null);
+    if (canMove(idx, emptyIdx)) {
+      // Swap
+      [tiles[idx], tiles[emptyIdx]] = [tiles[emptyIdx], tiles[idx]];
+      render(tiles);
+      if (checkWin(tiles)) {
+        $("#resultMessage").text("Vous avez gagné").css("color", "green");
+        blockGame();
+      }
+    }
+  }
 
-// Initialisation
-restart();
+  function startGame() {
+    let tiles = shuffle(images);
+    render(tiles);
+    $("#resultMessage").text("").css("color", "");
+    $("#gameContainer .tile").on("click", onTileClick);
+  }
+
+  $("#restartButton").click(function () {
+    startGame();
+  });
+
+  // Initialisation
+  startGame();
+});

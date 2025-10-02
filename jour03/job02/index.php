@@ -20,7 +20,6 @@ arc4.png
 arc5.png
 arc6.png -->
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -30,17 +29,20 @@ arc6.png -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-     <div class="mainContainer">
-    <div id="rainbowContainer">
-        <img src="arc1.png" alt="Arc-en-ciel 1" class="rainbow-image" data-order="1" draggable="true">
-        <img src="arc2.png" alt="Arc-en-ciel 2" class="rainbow-image" data-order="2" draggable="true">
-        <img src="arc3.png" alt="Arc-en-ciel 3" class="rainbow-image" data-order="3" draggable="true">
-        <img src="arc4.png" alt="Arc-en-ciel 4" class="rainbow-image" data-order="4" draggable="true">
-        <img src="arc5.png" alt="Arc-en-ciel 5" class="rainbow-image" data-order="5" draggable="true">
-        <img src="arc6.png" alt="Arc-en-ciel 6" class="rainbow-image" data-order="6" draggable="true">
+    <div class="mainContainer">
+        <div id="rainbowContainer">
+            <img src="arc1.png" alt="Arc-en-ciel 1" class="rainbow-image" data-order="1">
+            <img src="arc2.png" alt="Arc-en-ciel 2" class="rainbow-image" data-order="2">
+            <img src="arc3.png" alt="Arc-en-ciel 3" class="rainbow-image" data-order="3">
+            <img src="arc4.png" alt="Arc-en-ciel 4" class="rainbow-image" data-order="4">
+            <img src="arc5.png" alt="Arc-en-ciel 5" class="rainbow-image" data-order="5">
+            <img src="arc6.png" alt="Arc-en-ciel 6" class="rainbow-image" data-order="6">
+        </div>
+        <button id="shuffleButton">Mélanger les images</button>
+        <div id="resultMessage"></div>
     </div>
-    <button id="shuffleButton">Mélanger les images</button>
-    <div id="resultMessage"></div>
-    <script src="script.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

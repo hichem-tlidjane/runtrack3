@@ -13,9 +13,12 @@ Ensuite créez un bouton qui servira à cacher tout l’élément html. -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="text">
+    <button id="showBtn">Afficher la citation</button>
+    <button id="hideBtn">Cacher la citation</button>
+    <div id="text" style="display:none;">
         Les logiciels et les cathédrales, c'est un peu la même chose - d'abord on les construit, ensuite on prie.
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js" defer></script>
 </body>
 </html>
